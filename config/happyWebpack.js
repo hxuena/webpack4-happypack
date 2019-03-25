@@ -15,5 +15,16 @@ module.exports = [
         happyPackMode: true //ts-loader给happypack做的优化
       }
     }]
+  }),
+  new HappyWebpack({
+    id: 'happyCss',
+    threadPool: happyThreadPool,
+    loaders: [{
+      loader: 'css-loader',
+      options: {
+        importLoaders: true,
+      },
+    },
+    'postcss-loader']
   })
 ]

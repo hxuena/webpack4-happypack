@@ -11,6 +11,7 @@ const HappyWebpackPlugin = require("./config/happyWebpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const {join} = require("path")
 const HtmlAfterWebpackPlugin = require("./config/htmlAfterWebpackPlugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 for(let item of files) {
   if(/.+\/([a-zA-Z]+-[a-zA-Z]+)(\.entry\.ts$)/g.test(item)){
     const entryKey = RegExp.$1;
@@ -20,10 +21,10 @@ for(let item of files) {
       filename: `../views/${dist}/pages/${template}.html`,
       template: `src/webapp/views/${dist}/pages/${template}.html`,
       inject: false, //关闭webpack的打包后自动插入
-      chunks: [entryKey],
+      chunks: ['runtime', entryKey],  //保证页面只加载相关的代码
       minify: {
-        collapseWhitespace:_modeflag, //压缩
-        removeAttributeQuotes: _modeflag  //删除注释
+        collapseWhitespace:_modeflag,
+        removeAttributeQuotes: _modeflag 
       }
     }))
   }
@@ -34,13 +35,43 @@ let webpackConfig = {
   module: {
     rules: [{
       test:/\.ts?$/,
+      exclude: /node_modules/,
       use: 'happypack/loader?id=happyTs'
+    },{
+      test:/\.css?$/,
+      exclude: /node_modules/,
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: 'happypack/loader?id=happyCss'
+      })
     }]
   },
   output: {
     path: join(__dirname, './dist/assets'),
     publicPath: "/",
     filename: "scripts/[name].bundle.js"
+  },
+  watch: !_modeflag,
+  optimization: {
+    splitChunks: {  //抽离公用的异步的代码
+      cacheGroups: { 
+        commons: {
+          minChunks: 2,
+          minSize: 0,
+          name: "commons"
+        }
+      },
+    },
+    cacheGroups: {  //抽离公用的同步的代码
+      commons: {
+        minChunks: 2,
+        minSize: 0,
+        name: "commons"
+      }
+    },
+    runtimeChunk: {
+      name: "runtime"
+    }
   },
   plugins: [
     ..._plugins,
