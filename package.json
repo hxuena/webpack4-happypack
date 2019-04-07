@@ -9,16 +9,25 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "server:dev": "gulp",
+    "docs":"jsdoc ./src/nodeui/models/indexModel.js -d ./docs/jsdocs",
     "client:dev": "webpack --mode development",
-    "client:prod": "webpack --mode production"
+    "client:prod": "webpack --mode production",
+    "start:dev": "cross-env NODE_ENV=development supervisor ./dist/app.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "copy-webpack-plugin": "^5.0.2",
     "css-loader": "^2.1.1",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "glob": "^7.1.3",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^8.0.0",
+    "gulp-watch": "^5.0.1",
     "happypack": "^5.0.1",
     "html-webpack-plugin": "^3.2.0",
     "postcss-cssnext": "^3.1.0",
@@ -34,6 +43,14 @@
     "yargs-parser": "^13.0.0"
   },
   "dependencies": {
-    "cssnano": "^4.1.10"
+    "co": "^4.6.0",
+    "cross-env": "^5.2.0",
+    "cssnano": "^4.1.10",
+    "jsdoc": "^3.5.5",
+    "koa": "^2.7.0",
+    "koa-simple-router": "^0.2.0",
+    "koa-static": "^5.0.0",
+    "koa-swig": "^2.2.1",
+    "lodash": "^4.17.11"
   }
 }
