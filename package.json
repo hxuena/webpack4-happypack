@@ -29,6 +29,7 @@
     "glob": "^7.1.3",
     "gulp": "^3.9.1",
     "gulp-babel": "^8.0.0",
+    "gulp-eslint": "^5.0.0",
     "gulp-rollup": "^2.16.2",
     "gulp-sequence": "^1.0.0",
     "gulp-watch": "^5.0.1",
