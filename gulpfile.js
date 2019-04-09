@@ -13,7 +13,7 @@ gulp.task('builddev', () => {
     gulp.src('./src/nodeui/**/*.js')
       .pipe(babel({
         babelrc: false,
-        "plugins": ['transform-es2015-modules-commonjs']
+        "plugins": ["transform-es2015-modules-commonjs", "transform-decorators-legacy"]
       }))
       .pipe(gulp.dest('dist'))
   })
@@ -23,7 +23,7 @@ gulp.task('buildprod', () => {
     .pipe(babel({
       babelrc: false,
       ignore: ['./src/nodeui/config/*.js'], //清洗config
-      "plugins": ['transform-es2015-modules-commonjs']
+      "plugins": ['transform-es2015-modules-commonjs', 'transform-decorators-legacy']
     }))
     .pipe(gulp.dest('dist'))
 })
